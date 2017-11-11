@@ -1,0 +1,3 @@
+[submodule "submodules/Vecmath"]
+	path = submodules/Vecmath
+	url = https://github.com/Brownshome/Vecmath.git
