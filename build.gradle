@@ -31,6 +31,8 @@ repositories {
 }
 
 dependencies {
+	compile project(':submodules:Vecmath')
+	
 	compile "org.lwjgl:lwjgl:$lwjglVersion"
 	compile "org.lwjgl:lwjgl-glfw:$lwjglVersion"
 	compile "org.lwjgl:lwjgl-jemalloc:$lwjglVersion"
