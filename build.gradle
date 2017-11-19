@@ -4,7 +4,7 @@ plugins {
 }
 
 version = '0.0.0'
-mainClassName = 'brownshome.fluid2d.gpu.Main'
+mainClassName = 'brownshome.fluid2d.gpu.GPUFluidSimulation'
 
 import org.gradle.internal.os.OperatingSystem
 
