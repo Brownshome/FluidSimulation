@@ -11,11 +11,21 @@ import javax.swing.Timer;
 
 public class Viewer extends JPanel {
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(Viewer::startApplication);
+		int gridSize, workGroups;
+		
+		if(args.length != 0) {
+			gridSize = Integer.parseInt(args[0]);
+			workGroups = Integer.parseInt(args[1]);
+		} else {
+			gridSize = 150;
+			workGroups = 24;
+		}
+		
+		SwingUtilities.invokeLater(() -> Viewer.startApplication(gridSize, workGroups));
 	}
 	
-	private static void startApplication() {
-		Viewer viewer = new Viewer();
+	private static void startApplication(int gridSize, int gran) {
+		Viewer viewer = new Viewer(gridSize, gran);
 		
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(viewer);
@@ -30,18 +40,25 @@ public class Viewer extends JPanel {
 	private final FluidSimulation simulation;
 	private final KeyListener listener;
 	
-	public Viewer() {
+	public Viewer(int gridSize, int gran) {
 		super(true);
 		
-		simulation = new FluidSimulation(200, 200, 0.001, 0.1);
+		simulation = new FluidSimulation(gridSize, gridSize, 0.001, 0.0, gran);
 		
-		new Timer(16, e -> {
-			simulation.tick();
+		new Thread("Simulation Thread") {
+			public void run() {
+				simulation.startTimer();
+				while(true) {
+					simulation.tick();
+				}
+			};
+		}.start();
+		
+		new Timer(100, e -> {
 			repaint();
 		}).start();
 		
 		listener = new KeyListener() {
-			
 			@Override
 			public void keyReleased(KeyEvent e) {
 				
